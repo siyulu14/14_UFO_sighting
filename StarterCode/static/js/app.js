@@ -5,6 +5,9 @@ tbody = d3.select("tbody");
 
 function tableappending(){
 
+    // clean the table first
+    tbody.html("");
+
     tableData.map(function(sighting){
 
         // Append one table row per sight
@@ -32,7 +35,7 @@ var submit = d3.select("#filter-btn");
 submit.on("click", function(){
 
     // Prevent the page from refreshing
-    // d3.event.preventDefault();
+    d3.event.preventDefault();
 
     // Select the input element and get the raw HTML node
     var inputElement = d3.select("#datetime");
@@ -40,10 +43,15 @@ submit.on("click", function(){
     // Get the value property of the input element
     var inputValue = inputElement.property("value");
 
-    var filteredData = tableData.filter(sighting => sighting.datetime === inputValue);
+    if (inputValue != ""){
+        tableData = tableData.filter(sighting => sighting.datetime === inputValue);
+    };
 
     // call the table
     tableappending();
+
+    // reset tableData
+    tableData = data;
 
 });
 
